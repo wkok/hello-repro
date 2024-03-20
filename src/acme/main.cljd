@@ -1,0 +1,31 @@
+(ns acme.main
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:sticky_grouped_list/sticky_grouped_list.dart" :as sgl]
+            [cljd.flutter :as f]))
+
+(defn main []
+  (f/run
+    (m/MaterialApp
+      .title "Welcome to Flutter"
+      .theme (m/ThemeData .primarySwatch m.Colors/pink))
+    .home
+    (m/Scaffold
+      .appBar (m/AppBar
+                .title (m/Text "Welcome to ClojureDart")))
+    .body
+    m/Center
+
+    (sgl/StickyGroupedListView
+
+      .elements [{:type "Dog" :name "Harrison"}
+                 {:type "Cat" :name "Bob"}]
+
+      .groupBy (fn [e] (:type e))
+
+      .itemBuilder
+      (fn [_ element]
+        (m/Text (:name element)))
+
+      .groupSeparatorBuilder
+      (fn [element]
+        (m/Text (:type element))))))
